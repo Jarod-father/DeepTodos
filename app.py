@@ -1,54 +1,18 @@
 from flask import Flask, render_template, request, jsonify
 import sqlite3
 from datetime import datetime
+from database.initialization import initialize_table_todos
+from database.initialization import initialize_table_task_notes
 
 app = Flask(__name__)
 
 # 初始化数据库
 def init_db():
-    conn = sqlite3.connect('todos.db')
-    c = conn.cursor()
-    
-    # 创建表
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS todos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            task TEXT NOT NULL,
-            task_date DATE NOT NULL,
-            is_completed BOOLEAN DEFAULT 0,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            changed_on TIMESTAMP
-        )
-    ''')
-    
-#    # 检查旧表结构升级
-#    c.execute("PRAGMA table_info(todos)")
-#    columns = [col[1] for col in c.fetchall()]
-#    
-#    if 'changed_on' not in columns:
-#        # 新增字段 changed_on
-#        c.execute('ALTER TABLE todos ADD COLUMN changed_on TIMESTAMP')
-#
-#        # 初始化新增字段值
-#        c.execute('''
-#                UPDATE todos
-#                SET changed_on = created_at
-#                WHERE changed_on IS NULL
-#            ''')
-#
-#        # 设置触发器         
-#        c.execute('''
-#                CREATE TRIGGER update_todos_changed_on
-#                AFTER UPDATE ON todos
-#                BEGIN
-#                    UPDATE todos
-#                    SET changed_on = CURRENT_TIMESTAMP
-#                    WHERE id = OLD.id;
-#                END;
-#            ''')
-        
-    conn.commit()
-    conn.close()
+    initialize_table_todos.initialize_table_todos()
+    initialize_table_task_notes.initialize_table_task_notes()
+
+# 数据库操作 - 任务相关
+# app.register_blueprint(database_task_api)
 
 # 获取单日任务
 @app.route('/api/tasks', methods=['GET'])
@@ -57,7 +21,7 @@ def get_tasks():
     conn = sqlite3.connect('todos.db')
     c = conn.cursor()
     c.execute('''
-        SELECT id, task, is_completed 
+        SELECT id, task, is_completed
         FROM todos 
         WHERE task_date = ?
         ORDER BY created_at DESC
