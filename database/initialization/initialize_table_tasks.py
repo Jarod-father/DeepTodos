@@ -1,12 +1,12 @@
 import sqlite3
 
-def initialize_table_todos():
-    conn = sqlite3.connect('todos.db')
+def initialize_table_tasks():
+    conn = sqlite3.connect('tasks.db')
     c = conn.cursor()
     
     # 创建表
     c.execute('''
-        CREATE TABLE IF NOT EXISTS todos (
+        CREATE TABLE IF NOT EXISTS tasks (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             task TEXT NOT NULL,
             task_date DATE NOT NULL,
@@ -18,26 +18,26 @@ def initialize_table_todos():
     
 
 #    # 检查旧表结构升级
-#    c.execute("PRAGMA table_info(todos)")
+#    c.execute("PRAGMA table_info(tasks)")
 #    columns = [col[1] for col in c.fetchall()]
 #    
 #    if 'changed_on' not in columns:
 #        # 新增字段 changed_on
-#        c.execute('ALTER TABLE todos ADD COLUMN changed_on TIMESTAMP')
+#        c.execute('ALTER TABLE tasks ADD COLUMN changed_on TIMESTAMP')
 #
 #        # 初始化新增字段值
 #        c.execute('''
-#                UPDATE todos
+#                UPDATE tasks
 #                SET changed_on = created_at
 #                WHERE changed_on IS NULL
 #            ''')
 #
 #        # 设置触发器         
 #        c.execute('''
-#                CREATE TRIGGER update_todos_changed_on
-#                AFTER UPDATE ON todos
+#                CREATE TRIGGER update_tasks_changed_on
+#                AFTER UPDATE ON tasks
 #                BEGIN
-#                    UPDATE todos
+#                    UPDATE tasks
 #                    SET changed_on = CURRENT_TIMESTAMP
 #                    WHERE id = OLD.id;
 #                END;
