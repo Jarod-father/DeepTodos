@@ -2,7 +2,7 @@ import sqlite3
 
 def initialize_table_task_notes():
 
-    conn = sqlite3.connect('task_notes.db')
+    conn = sqlite3.connect('tasks.db')
     c = conn.cursor()
     
     # 创建表 task_notes

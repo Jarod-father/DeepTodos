@@ -25,6 +25,7 @@ function renderTaskList(tasks) {
                                onchange="toggleTask(${task.id}, this.checked)">
                         <span>${task.task}</span>
                     </div>
+                    <button class="comment-btn" onclick="addTaskNotes(${task.id})">备注</button>
                     <button class="delete-btn" onclick="deleteTask(${task.id})">删除</button>
                 `;
         taskList.appendChild(li);
@@ -142,6 +143,7 @@ function renderAllUnfinishedTaskList(allUnfinishedTasks) {
                                onchange="toggleTask(${task.id}, this.checked)">
                         <span>${task.task}</span>
                     </div>
+                    <button class="comment-btn" onclick="addTaskNotes(${task.id})">备注</button>
                     <button class="delete-btn" onclick="deleteTask(${task.id})">删除</button> 
                 `;
         allUnfinishedTaskList.appendChild(li);
