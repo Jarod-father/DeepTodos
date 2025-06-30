@@ -11,7 +11,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             showMessage("登录成功！");
             window.location.href='tasks';
         } else {
-            showMessage("用户名密码不正确！");
+            showMessage("用户名密码不正确！", true);
             return;
         }
     });
