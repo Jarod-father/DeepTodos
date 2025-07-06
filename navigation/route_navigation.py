@@ -5,9 +5,10 @@ route_navigation = Blueprint('route_navigation', __name__)
 # 初始页面 login
 @route_navigation.route('/')
 def index():
-    if session.get('logged_in'):
-        return redirect(url_for("route_navigation.tasks"))
-    return redirect(url_for("route_navigation.login"))
+    # if session.get('logged_in'):
+    #     return redirect(url_for("route_navigation.tasks"))
+    # return redirect(url_for("route_navigation.login"))
+    return render_template('login/login.html')
 
 # 用户登录页面 login
 @route_navigation.route('/login')
