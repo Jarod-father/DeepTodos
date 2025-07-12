@@ -35,4 +35,8 @@ def changePassword():
         return redirect(url_for("route_navigation.login"))
     return render_template('login/changePassword.html')
 
+# 测试页面
+@route_navigation.route('/test')
+def test():
+    return render_template('test.html')
 
