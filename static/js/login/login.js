@@ -36,24 +36,24 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
     event.preventDefault(); // 阻止表单默认提交
 
-    const username = document.getElementById('username').value.trim();
+    const mobile_number = document.getElementById('mobile_number').value.trim();
     const password = document.getElementById('password').value;
     const messageDiv = document.getElementById('message');
 
-    if (!username) return;
+    if (!mobile_number) return;
 
     // 验证用户是否存在以及密码是否正确
     const safePasswordValue = encodeURIComponent(password);
-    const response = await fetch(`/api/verify_password?user=${username}&password=${safePasswordValue}`);
+    const response = await fetch(`/api/verify_password?mobile_number=${mobile_number}&password=${safePasswordValue}`);
     if (response.status === 400) {
         // 登录失败
-        messageDiv.textContent = '用户' + username + '不存在！';
+        messageDiv.textContent = '用户' + mobile_number + '不存在！';
         messageDiv.className = 'error';
         messageDiv.style.display = 'block';
     }
     if (response.status === 401) {
         // 登录失败
-        messageDiv.textContent = '用户' + username + '密码不正确';
+        messageDiv.textContent = '用户' + mobile_number + '密码不正确';
         messageDiv.className = 'error';
         messageDiv.style.display = 'block';
     }

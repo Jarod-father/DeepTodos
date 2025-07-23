@@ -1,18 +1,18 @@
 // 获取用户名从 session 
-async function getUsername() {
+async function getMobileNumber() {
     // 从 session 中获取用户登录信息
-    const response = await fetch(`/api/get_session?session_item=username`);
+    const response = await fetch(`/api/get_session?session_item=mobile_number`);
     if (!response.ok) {
         alert("获取用户登录信息失败！");
         window.location.href = 'login';
     }
-    const username = await response.json();
-    document.getElementById("username").value = username;
+    const mobile_number = await response.json();
+    document.getElementById("mobile_number").value = mobile_number;
 }
 
 // 页面加载时执行
 document.addEventListener('DOMContentLoaded', function () {
-    getUsername();
+    getMobileNumber();
 
     const changePasswordForm = document.getElementById('changePasswordForm');
     const oldPasswordInput = document.getElementById('oldPassword');
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     changePasswordForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const username = document.getElementById('username').value.trim();
+        const mobile_number = document.getElementById('mobile_number').value.trim();
         const oldPassword = oldPasswordInput.value;
         const newPassword = newPasswordInput.value;
         const repassword = repasswordInput.value;
@@ -87,13 +87,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 验证用户是否存在以及密码是否正确
-        const verify_password_response = await fetch(`/api/verify_password?user=${username}&password=${oldPassword}`);
+        const verify_password_response = await fetch(`/api/verify_password?mobile_number=${mobile_number}&password=${oldPassword}`);
         if (verify_password_response.status === 400) {
-            showMessage('用户' + username + '不存在！', 'error');
+            showMessage('用户' + mobile_number + '不存在！', 'error');
             return;
         }
         if (verify_password_response.status === 401) {
-            showMessage('用户' + username + '旧密码不正确！', 'error');
+            showMessage('用户' + mobile_number + '旧密码不正确！', 'error');
             return;
         }
 
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                user: username,
+                mobile_number: mobile_number,
                 password: newPassword
             })
         });

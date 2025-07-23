@@ -28,13 +28,13 @@ async function getDayofWeek() {
     document.getElementById("displayDayofWeek").innerHTML = currentDay;
 
     // 从 session 中获取用户登录信息
-    const response = await fetch(`/api/get_session?session_item=username`);
+    const response = await fetch(`/api/get_session?session_item=mobile_number`);
     if (!response.ok) {
         alert("获取用户登录信息失败！");
         window.location.href = 'login';
     }
-    const username = await response.json();
-    document.getElementById("username").innerHTML = username;
+    const mobile_number = await response.json();
+    document.getElementById("mobile_number").innerHTML = mobile_number;
 }
 
 // 初始化任务列表
