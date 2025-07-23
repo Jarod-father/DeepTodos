@@ -19,7 +19,6 @@ def get_tasks():
           AND task_date = ?
         ORDER BY created_at DESC
     ''', (user_uuid, date))
-
     tasks = [{"task_uuid": row[0], "task": row[1], "task_priority": row[2], "task_category": row[3], "completed": bool(row[4])} for row in c.fetchall()]
     conn.close()
     return jsonify(tasks)
@@ -30,7 +29,6 @@ def add_task():
     # 生成标准格式UUID（带连字符的36字符版本）
     task_uuid = str(uuid.uuid4())
     user_uuid = session.get('user_uuid')
-    username = session.get('username')
     data = request.get_json()
     conn = sqlite3.connect('deeptodo.db')
     c = conn.cursor()

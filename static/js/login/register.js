@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     registerForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const username = document.getElementById('username').value;
+        const mobile_number = document.getElementById('mobile_number').value;
         const password = passwordInput.value;
         const repassword = repasswordInput.value;
 
@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 验证用户是否已存在
-        const userExists = await fetch(`/api/userExist?user=${username}`);
+        const userExists = await fetch(`/api/userExist?user=${mobile_number}`);
         if (userExists.ok) {
-            showMessage("用户名已存在！", true);
+            showMessage("该用户已存在！", true);
             return;
         }
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                user: username,
+                mobile_number: mobile_number,
                 password: password
             })
         });

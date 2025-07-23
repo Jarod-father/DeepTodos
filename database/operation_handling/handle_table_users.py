@@ -17,7 +17,7 @@ def add_user():
     # 生成标准格式UUID（带连字符的36字符版本）
     user_uuid = str(uuid.uuid4())    
     data = request.get_json()
-    user = data.get('user')
+    mobile_number = data.get('mobile_number')
     password = data.get('password')
     # 1. 密码验证规则
     if not password or not passwordRegex.match(password):
@@ -30,12 +30,12 @@ def add_user():
     # 3. 添加用户到数据库
     conn = sqlite3.connect('deeptodo.db')
     c = conn.cursor()
-    c.execute("INSERT INTO users (user_uuid, user, password_hash) VALUES (?, ?, ?)",
-             (user_uuid, data[-'user'], password_hash))
+    c.execute("INSERT INTO users (user_uuid, mobile_number, password_hash) VALUES (?, ?, ?)",
+             (user_uuid, data['mobile_number'], password_hash))
     conn.commit()
     conn.close()
     session["user_uuid"] = user_uuid
-    session["username"] = user
+    session["mobile_number"] = mobile_number
     session["logged_in"] = True
     session.permanent = True
     return jsonify(success=True)
@@ -43,14 +43,14 @@ def add_user():
 # 获取用户是否存在
 @handle_users_api.route('/api/userExist', methods=['GET'])
 def userExist():
-    user = request.args.get('user')
+    mobile_number = request.args.get('mobile_number')
     conn = sqlite3.connect('deeptodo.db')
     c = conn.cursor()
     c.execute('''
         SELECT *
         FROM users
-        WHERE user = ?
-    ''', (user,))
+        WHERE mobile_number = ?
+    ''', (mobile_number,))
     result = c.fetchone()
     conn.close()
     if result is None:
@@ -60,7 +60,7 @@ def userExist():
 # 验证密码
 @handle_users_api.route('/api/verify_password', methods=['GET'])
 def verifyPassword():
-    user = request.args.get('user')
+    mobile_number = request.args.get('mobile_number')
     safePasswordValue = request.args.get('password')
     input_password = unquote(safePasswordValue)
     conn = sqlite3.connect('deeptodo.db')
@@ -68,8 +68,8 @@ def verifyPassword():
     c.execute('''
         SELECT user_uuid, password_hash
         FROM users
-        WHERE user = ?
-    ''', (user,))
+        WHERE mobile_number = ?
+    ''', (mobile_number,))
     result = c.fetchone()
     conn.close()
     if result is None:
@@ -82,7 +82,7 @@ def verifyPassword():
     if not is_vaild:
         return jsonify(error="密码不正确！"), 401
     session['user_uuid'] = stored_user_uuid_value
-    session['username'] = user
+    session['mobile_number'] = mobile_number
     session['logged_in'] = True
     session.permanent = True
     return jsonify(is_vaild)
@@ -91,7 +91,7 @@ def verifyPassword():
 @handle_users_api.route('/api/change_password', methods=['PUT'])
 def changePassword():
     data = request.get_json()
-    user = data.get('user')
+    mobile_number = data.get('mobile_number')
     password = data.get('password')
     # 1. 密码验证规则
     if not password or not passwordRegex.match(password):
@@ -104,7 +104,7 @@ def changePassword():
     # 3. 更改用户新密码到数据库
     conn = sqlite3.connect('deeptodo.db')
     c = conn.cursor()
-    c.execute("UPDATE users SET password_hash = ? WHERE user = ?", (password_hash, user))
+    c.execute("UPDATE users SET password_hash = ? WHERE mobile_number = ?", (password_hash, mobile_number))
     conn.commit()
     conn.close()
     return jsonify({"success": True})
