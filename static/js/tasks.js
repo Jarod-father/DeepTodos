@@ -365,3 +365,7 @@ function renderCharts() {
         }
     });
 }
+
+function removeAccount() {
+    alert("删除账号？");
+}
