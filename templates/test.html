@@ -1,458 +1,1103 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>验证码安全验证</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>用户设置中心</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      :root {
+        --primary-color: #4a6cf7;
+      
+        --primary-light: #eef2ff;
+      
+        --background: #f9fafb;
+      
+        --card-bg: rgba(255, 255, 255, 0.95);
+      
+        --text-primary: #1f2937;
+      
+        --text-secondary: #6b7280;
+      
+        --border-color: #e5e7eb;
+      
+        --success-color: #10b981;
+      
+        --warning-color: #f59e0b;
+      
+        --danger-color: #ef4444;
+      
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      
+        --radius: 12px;
+      
+        --transition: all 0.3s ease;
+      }
+      
+      * {
+        margin: 0;
+      
+        padding: 0;
+      
+        box-sizing: border-box;
+      
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+        background: linear-gradient(135deg, #f0f4ff, #f9fafb);
+        color: var(--text-primary);
+        line-height: 1.6;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        position: relative;
+      }
+      
+      /* 动画背景 */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+      
+      .bg-bubbles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .bg-bubbles li {
+        position: absolute;
+        list-style: none;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(74, 110, 224, 0.08);
+        bottom: -160px;
+        border-radius: 50%;
+        animation: square 25s infinite;
+        transition-timing-function: linear;
+      }
+      
+      .bg-bubbles li:nth-child(1) {
+        left: 10%;
+        animation-delay: 0s;
+      }
+      
+      .bg-bubbles li:nth-child(2) {
+        left: 20%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 2s;
+        animation-duration: 17s;
+      }
+      
+      .bg-bubbles li:nth-child(3) {
+        left: 25%;
+        animation-delay: 4s;
+      }
+      
+      .bg-bubbles li:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-duration: 22s;
+        background-color: rgba(74, 110, 224, 0.12);
+      }
+      
+      .bg-bubbles li:nth-child(5) {
+        left: 70%;
+      }
+      
+      .bg-bubbles li:nth-child(6) {
+        left: 80%;
+        width: 120px;
+        height: 120px;
+        animation-delay: 3s;
+        background-color: rgba(74, 110, 224, 0.05);
+      }
+      
+      .bg-bubbles li:nth-child(7) {
+        left: 32%;
+        width: 160px;
+        height: 160px;
+        animation-delay: 7s;
+      }
+      
+      .bg-bubbles li:nth-child(8) {
+        left: 55%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 15s;
+        animation-duration: 40s;
+      }
+      
+      @keyframes square {
+        0% {
+          transform: translateY(0);
         }
-        
-        body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+      
+        100% {
+          transform: translateY(-1000px) rotate(600deg);
         }
-        
+      }
+      
+      .container {
+        display: flex;
+      
+        flex: 1;
+      
+        max-width: 1400px;
+      
+        margin: 40px auto;
+      
+        width: 100%;
+      
+        padding: 20px;
+      
+        position: relative;
+      
+        z-index: 1;
+      }
+      
+      /* 左侧导航 */
+      
+      .sidebar {
+        width: 280px;
+      
+        background-color: var(--card-bg);
+      
+        border-radius: var(--radius);
+      
+        box-shadow: var(--shadow);
+      
+        padding: 0 0 25px;
+      
+        margin-right: 25px;
+      
+        height: fit-content;
+      
+        backdrop-filter: blur(10px);
+      
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      
+      .user-section {
+        padding: 30px 25px 20px;
+      
+        border-bottom: 1px solid var(--border-color);
+      
+        display: flex;
+      
+        align-items: center;
+      
+        gap: 15px;
+      }
+      
+      .avatar {
+        width: 60px;
+      
+        height: 60px;
+      
+        border-radius: 50%;
+      
+        background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+      
+        display: flex;
+      
+        align-items: center;
+      
+        justify-content: center;
+      
+        color: white;
+      
+        font-size: 1.5rem;
+      
+        font-weight: bold;
+      
+        box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
+      }
+      
+      .user-details {
+        display: flex;
+      
+        flex-direction: column;
+      }
+      
+      .user-name {
+        font-weight: 700;
+      
+        font-size: 1.2rem;
+      
+        color: var(--text-primary);
+      
+        margin-bottom: 4px;
+      }
+      
+      .user-email {
+        color: var(--text-secondary);
+      
+        font-size: 0.9rem;
+      }
+      
+      .nav-title {
+        padding: 20px 25px 15px;
+      
+        font-size: 1.1rem;
+      
+        font-weight: 600;
+      
+        color: var(--text-secondary);
+      
+        margin-bottom: 5px;
+      }
+      
+      .nav-item {
+        display: flex;
+      
+        align-items: center;
+      
+        padding: 15px 25px;
+      
+        cursor: pointer;
+      
+        transition: var(--transition);
+      
+        border-left: 3px solid transparent;
+      
+        color: var(--text-secondary);
+      
+        font-weight: 500;
+      }
+      
+      .nav-item:hover {
+        background-color: var(--primary-light);
+      
+        color: var(--primary-color);
+      }
+      
+      .nav-item.active {
+        background-color: var(--primary-light);
+      
+        border-left: 3px solid var(--primary-color);
+      
+        color: var(--primary-color);
+      }
+      
+      .nav-item i {
+        width: 24px;
+      
+        margin-right: 15px;
+      
+        font-size: 1.2rem;
+      }
+      
+      /* 内容区域 */
+      
+      .content {
+        flex: 1;
+      
+        background-color: var(--card-bg);
+      
+        border-radius: var(--radius);
+      
+        box-shadow: var(--shadow);
+      
+        padding: 30px;
+      
+        min-height: 500px;
+      
+        backdrop-filter: blur(10px);
+      
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      
+      .tab-content {
+        display: none;
+      }
+      
+      .tab-content.active {
+        display: block;
+      
+        animation: fadeIn 0.5s ease;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      
+        font-weight: 700;
+      
+        margin-bottom: 30px;
+      
+        padding-bottom: 15px;
+      
+        border-bottom: 1px solid var(--border-color);
+      
+        color: var(--text-primary);
+      
+        display: flex;
+      
+        align-items: center;
+      
+        gap: 12px;
+      }
+      
+      .section-title i {
+        color: var(--primary-color);
+      }
+      
+      /* 个人信息部分 */
+      
+      .profile-grid {
+        display: grid;
+      
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      
+        gap: 25px;
+      }
+      
+      .profile-card {
+        background-color: var(--primary-light);
+      
+        border-radius: var(--radius);
+      
+        padding: 25px;
+      
+        display: flex;
+      
+        align-items: center;
+      
+        gap: 20px;
+      
+        transition: var(--transition);
+      
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      .profile-card:hover {
+        transform: translateY(-5px);
+      
+        box-shadow: 0 8px 20px rgba(74, 108, 247, 0.15);
+      }
+      
+      .profile-icon {
+        width: 60px;
+      
+        height: 60px;
+      
+        border-radius: 50%;
+      
+        background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+      
+        display: flex;
+      
+        align-items: center;
+      
+        justify-content: center;
+      
+        color: white;
+      
+        font-size: 1.5rem;
+      
+        flex-shrink: 0;
+      }
+      
+      .profile-info h3 {
+        font-weight: 600;
+      
+        margin-bottom: 5px;
+      
+        color: var(--text-primary);
+      }
+      
+      .profile-info p {
+        color: var(--text-secondary);
+      
+        font-size: 1rem;
+      }
+      
+      /* 表单样式 */
+      
+      .form-group {
+        margin-bottom: 25px;
+      
+        max-width: 500px;
+      }
+      
+      .form-group label {
+        display: block;
+      
+        margin-bottom: 8px;
+      
+        font-weight: 500;
+      
+        color: var(--text-primary);
+      }
+      
+      .form-control {
+        width: 100%;
+      
+        padding: 14px 18px;
+      
+        border: 1px solid var(--border-color);
+      
+        border-radius: 8px;
+      
+        font-size: 1rem;
+      
+        transition: var(--transition);
+      
+        background: white;
+      }
+      
+      .form-control:focus {
+        outline: none;
+      
+        border-color: var(--primary-color);
+      
+        box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+      }
+      
+      .btn {
+        padding: 14px 28px;
+      
+        border-radius: 8px;
+      
+        font-size: 1rem;
+      
+        font-weight: 500;
+      
+        cursor: pointer;
+      
+        transition: var(--transition);
+      
+        border: none;
+      
+        display: inline-flex;
+      
+        align-items: center;
+      
+        gap: 8px;
+      }
+      
+      .btn-primary {
+        background-color: var(--primary-color);
+      
+        color: white;
+      
+        box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
+      }
+      
+      .btn-primary:hover {
+        background-color: #3a56e0;
+      
+        transform: translateY(-2px);
+      
+        box-shadow: 0 6px 15px rgba(74, 108, 247, 0.4);
+      }
+      
+      .btn-danger {
+        background-color: var(--danger-color);
+      
+        color: white;
+      
+        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+      }
+      
+      .btn-danger:hover {
+        background-color: #dc2626;
+      
+        transform: translateY(-2px);
+      
+        box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
+      }
+      
+      /* 语言选择 */
+      
+      .language-grid {
+        display: grid;
+      
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      
+        gap: 20px;
+      
+        max-width: 700px;
+      }
+      
+      .language-card {
+        border: 1px solid var(--border-color);
+      
+        border-radius: var(--radius);
+      
+        padding: 25px 20px;
+      
+        text-align: center;
+      
+        cursor: pointer;
+      
+        transition: var(--transition);
+      
+        background: white;
+      }
+      
+      .language-card:hover {
+        border-color: var(--primary-color);
+      
+        box-shadow: var(--shadow);
+      
+        transform: translateY(-3px);
+      }
+      
+      .language-card.selected {
+        border-color: var(--primary-color);
+      
+        background-color: var(--primary-light);
+      
+        transform: scale(1.03);
+      }
+      
+      .language-card i {
+        font-size: 2.5rem;
+      
+        margin-bottom: 15px;
+      
+        color: var(--primary-color);
+      }
+      
+      .language-card h3 {
+        margin-bottom: 5px;
+      
+        color: var(--text-primary);
+      }
+      
+      .language-card p {
+        color: var(--text-secondary);
+      
+        font-size: 0.95rem;
+      }
+      
+      /* 警告卡片 */
+      
+      .warning-card {
+        background-color: #fff8f8;
+      
+        border: 1px solid #fee2e2;
+      
+        border-radius: var(--radius);
+      
+        padding: 25px;
+      
+        max-width: 600px;
+      
+        margin-bottom: 30px;
+      
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+      
+      .warning-card h3 {
+        color: var(--danger-color);
+      
+        margin-bottom: 15px;
+      
+        display: flex;
+      
+        align-items: center;
+      
+        gap: 10px;
+      
+        font-size: 1.3rem;
+      }
+      
+      .warning-card p {
+        color: var(--text-secondary);
+      
+        line-height: 1.7;
+      }
+      
+      /* 底部 */
+      
+      footer {
+        text-align: center;
+      
+        padding: 25px;
+      
+        color: var(--text-secondary);
+      
+        background-color: rgba(255, 255, 255, 0.7);
+      
+        margin-top: 40px;
+      
+        backdrop-filter: blur(10px);
+      
+        font-size: 0.95rem;
+      }
+      
+      /* 响应式设计 */
+      
+      @media (max-width: 992px) {
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            color: white;
-            padding: 20px;
+          flex-direction: column;
+      
+          margin-top: 20px;
         }
-        
-        .container h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      
+        .sidebar {
+          width: 100%;
+      
+          margin-right: 0;
+      
+          margin-bottom: 25px;
         }
-        
-        .container p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
+      
+        .nav-items {
+          display: flex;
+      
+          flex-wrap: wrap;
+      
+          gap: 5px;
+      
+          padding: 0 15px;
         }
-        
-        .trigger-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      
+        .nav-item {
+          border-left: none;
+      
+          border-bottom: 3px solid transparent;
+      
+          padding: 12px 15px;
+      
+          flex: 1;
+      
+          min-width: 120px;
+      
+          justify-content: center;
         }
-        
-        .trigger-btn:hover {
-            background: #ff5252;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      
+        .nav-item.active {
+          border-left: none;
+      
+          border-bottom: 3px solid var(--primary-color);
         }
-        
-        /* 验证码弹窗样式 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+      }
+      
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
         }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
+      
+        .content {
+          padding: 25px 20px;
         }
-        
-        .captcha-modal {
-            background: white;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            transform: translateY(50px);
-            transition: transform 0.4s ease;
+      
+        .profile-grid {
+          grid-template-columns: 1fr;
         }
-        
-        .modal-overlay.active .captcha-modal {
-            transform: translateY(0);
+      
+        .user-section {
+          flex-direction: column;
+      
+          text-align: center;
+      
+          padding: 25px 20px;
         }
-        
-        .modal-header {
-            background: #4361ee;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
+      }
+      
+      @media (max-width: 480px) {
+        .nav-items {
+          flex-direction: column;
         }
-        
-        .modal-header h2 {
-            font-size: 1.8rem;
-            font-weight: 600;
+      
+        .language-grid {
+          grid-template-columns: 1fr;
         }
-        
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: transform 0.2s;
+      
+        .nav-item {
+          justify-content: flex-start;
         }
-        
-        .close-btn:hover {
-            transform: scale(1.2);
+      }
+      
+      /* 动画 */
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
-        
-        .modal-body {
-            padding: 30px;
+      
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .captcha-info {
-            color: #555;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-        
-        .captcha-display {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #e9ecef;
-            position: relative;
-        }
-        
-        .captcha-code {
-            font-size: 2.5rem;
-            letter-spacing: 10px;
-            font-weight: bold;
-            color: #333;
-            background: linear-gradient(45deg, #4361ee, #3a0ca3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .refresh-btn {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #4361ee;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .refresh-btn:hover {
-            background: #3a0ca3;
-            transform: translateY(-50%) rotate(90deg);
-        }
-        
-        .input-group {
-            margin-bottom: 25px;
-        }
-        
-        .input-group label {
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-        }
-        
-        .captcha-input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .captcha-input:focus {
-            border-color: #4361ee;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-        
-        .error-message {
-            color: #e63946;
-            font-size: 0.9rem;
-            margin-top: 8px;
-            text-align: left;
-            height: 20px;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .error-message.show {
-            opacity: 1;
-        }
-        
-        .modal-footer {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .modal-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .cancel-btn {
-            background: #f8f9fa;
-            color: #555;
-        }
-        
-        .cancel-btn:hover {
-            background: #e9ecef;
-        }
-        
-        .submit-btn {
-            background: #4361ee;
-            color: white;
-        }
-        
-        .submit-btn:hover {
-            background: #3a0ca3;
-        }
-        
-        .success-message {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            background: #4caf50;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.5s ease;
-            z-index: 1100;
-        }
-        
-        .success-message.show {
-            transform: translateX(-50%) translateY(0);
-        }
-        
-        @media (max-width: 500px) {
-            .captcha-modal {
-                max-width: 90%;
-            }
-            
-            .captcha-code {
-                font-size: 2rem;
-                letter-spacing: 5px;
-            }
-            
-            .modal-footer {
-                flex-direction: column;
-            }
-            
-            .container h1 {
-                font-size: 2.5rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+
+  <body>
+    <!-- 动画背景 -->
+    <div class="animated-bg">
+      <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+
     <div class="container">
-        <h1>安全验证系统</h1>
-        <p>点击下方按钮进行安全验证</p>
-        <button class="trigger-btn" id="showCaptchaBtn">
-            <i class="fas fa-shield-alt"></i> 开始验证
-        </button>
-    </div>
-    
-    <!-- 验证码弹窗 -->
-    <div class="modal-overlay" id="captchaModal">
-        <div class="captcha-modal">
-            <div class="modal-header">
-                <h2>安全验证</h2>
-                <button class="close-btn" id="closeModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="captcha-info">
-                    请在下方的输入框中输入您看到的验证码，以验证您不是机器人。
-                </p>
-                
-                <div class="captcha-display">
-                    <div class="captcha-code" id="captchaCode">A7B3</div>
-                    <button class="refresh-btn" id="refreshCaptcha">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="input-group">
-                    <label for="captchaInput">输入验证码</label>
-                    <input 
-                        type="text" 
-                        class="captcha-input" 
-                        id="captchaInput" 
-                        placeholder="请输入上方显示的验证码"
-                        maxlength="4"
-                        autocomplete="off"
-                    >
-                    <div class="error-message" id="errorMessage"></div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button class="modal-btn cancel-btn" id="cancelBtn">取消</button>
-                    <button class="modal-btn submit-btn" id="submitBtn">验证</button>
-                </div>
-            </div>
+      <!-- 左侧导航 -->
+
+      <div class="sidebar">
+        <div class="user-section">
+          <div class="avatar">JS</div>
+
+          <div class="user-details">
+            <div class="user-name">张明</div>
+
+            <div class="user-email">zhangming@example.com</div>
+          </div>
         </div>
+
+        <div class="nav-title">账户设置</div>
+
+        <div class="nav-items">
+          <div class="nav-item active" data-tab="profile">
+            <i class="fas fa-user"></i>
+
+            <span>个人信息</span>
+          </div>
+
+          <div class="nav-item" data-tab="language">
+            <i class="fas fa-globe"></i>
+
+            <span>语言设置</span>
+          </div>
+
+          <div class="nav-item" data-tab="password">
+            <i class="fas fa-lock"></i>
+
+            <span>修改密码</span>
+          </div>
+
+          <div class="nav-item" data-tab="logout">
+            <i class="fas fa-sign-out-alt"></i>
+
+            <span>退出登录</span>
+          </div>
+
+          <div class="nav-item" data-tab="delete">
+            <i class="fas fa-trash-alt"></i>
+
+            <span>删除账号</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧内容 -->
+
+      <div class="content">
+        <!-- 个人信息 -->
+
+        <div id="profile" class="tab-content active">
+          <h2 class="section-title"><i class="fas fa-user-circle"></i>个人信息</h2>
+
+          <div class="profile-grid">
+            <div class="profile-card">
+              <div class="profile-icon">
+                <i class="fas fa-user"></i>
+              </div>
+
+              <div class="profile-info">
+                <h3>用户名</h3>
+
+                <p>张明</p>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+
+              <div class="profile-info">
+                <h3>电子邮箱</h3>
+
+                <p>zhangming@example.com</p>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+
+              <div class="profile-info">
+                <h3>手机号码</h3>
+
+                <p>+86 138****5678</p>
+              </div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+
+              <div class="profile-info">
+                <h3>所在地区</h3>
+
+                <p>中国，北京市</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 语言设置 -->
+
+        <div id="language" class="tab-content">
+          <h2 class="section-title"><i class="fas fa-globe-asia"></i>语言设置</h2>
+
+          <div class="language-grid">
+            <div class="language-card selected">
+              <i class="fas fa-language"></i>
+
+              <h3>简体中文</h3>
+
+              <p>Chinese (Simplified)</p>
+            </div>
+
+            <div class="language-card">
+              <i class="fas fa-language"></i>
+
+              <h3>English</h3>
+
+              <p>英语</p>
+            </div>
+
+            <div class="language-card">
+              <i class="fas fa-language"></i>
+
+              <h3>日本語</h3>
+
+              <p>日语</p>
+            </div>
+
+            <div class="language-card">
+              <i class="fas fa-language"></i>
+
+              <h3>Español</h3>
+
+              <p>西班牙语</p>
+            </div>
+
+            <div class="language-card">
+              <i class="fas fa-language"></i>
+
+              <h3>Français</h3>
+
+              <p>法语</p>
+            </div>
+
+            <div class="language-card">
+              <i class="fas fa-language"></i>
+
+              <h3>Deutsch</h3>
+
+              <p>德语</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 修改密码 -->
+
+        <div id="password" class="tab-content">
+          <h2 class="section-title"><i class="fas fa-key"></i>修改密码</h2>
+
+          <div class="form-group">
+            <label for="current-password">当前密码</label>
+
+            <input type="password" id="current-password" class="form-control" placeholder="请输入当前密码" />
+          </div>
+
+          <div class="form-group">
+            <label for="new-password">新密码</label>
+
+            <input type="password" id="new-password" class="form-control" placeholder="请输入新密码（至少8位）" />
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password">确认新密码</label>
+
+            <input type="password" id="confirm-password" class="form-control" placeholder="请再次输入新密码" />
+          </div>
+
+          <button class="btn btn-primary"><i class="fas fa-save"></i>更新密码</button>
+        </div>
+
+        <!-- 退出登录 -->
+
+        <div id="logout" class="tab-content">
+          <h2 class="section-title"><i class="fas fa-sign-out-alt"></i>退出登录</h2>
+
+          <div class="warning-card">
+            <h3><i class="fas fa-exclamation-circle"></i> 确定要退出登录吗？</h3>
+
+            <p>退出后您将无法访问个人资料和专属内容。下次登录需要重新输入账号密码。</p>
+          </div>
+
+          <button class="btn btn-primary"><i class="fas fa-check"></i>确认退出</button>
+        </div>
+
+        <!-- 删除账号 -->
+
+        <div id="delete" class="tab-content">
+          <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i>删除账号</h2>
+
+          <div class="warning-card">
+            <h3><i class="fas fa-radiation"></i> 警告：此操作不可逆</h3>
+
+            <p>删除账号将会永久清除您的所有数据，包括个人信息、设置和历史记录。此操作无法撤销。</p>
+
+            <p style="margin-top: 15px; font-weight: 500;">请确认您已了解以下后果：</p>
+
+            <ul style="padding-left: 20px; margin-top: 10px;">
+              <li>所有个人数据将被永久删除</li>
+
+              <li>无法恢复账号及相关内容</li>
+
+              <li>关联服务将无法继续使用</li>
+            </ul>
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-delete">请输入您的密码以确认删除</label>
+
+            <input type="password" id="confirm-delete" class="form-control" placeholder="请输入账号密码" />
+          </div>
+
+          <button class="btn btn-danger"><i class="fas fa-trash-alt"></i>永久删除账号</button>
+        </div>
+      </div>
     </div>
-    
-    <!-- 成功提示 -->
-    <div class="success-message" id="successMessage">
-        <i class="fas fa-check-circle"></i> 验证成功！欢迎访问
-    </div>
-    
+
+    <footer>
+      <p>© 2023 用户设置中心 | 隐私政策 | 使用条款</p>
+    </footer>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('captchaModal');
-            const showBtn = document.getElementById('showCaptchaBtn');
-            const closeBtn = document.getElementById('closeModal');
-            const cancelBtn = document.getElementById('cancelBtn');
-            const refreshBtn = document.getElementById('refreshCaptcha');
-            const submitBtn = document.getElementById('submitBtn');
-            const captchaCode = document.getElementById('captchaCode');
-            const captchaInput = document.getElementById('captchaInput');
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
-            
-            // 生成随机验证码
-            function generateCaptcha() {
-                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-                let result = '';
-                for (let i = 0; i < 4; i++) {
-                    result += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                return result;
-            }
-            
-            // 显示验证码弹窗
-            function showModal() {
-                modal.classList.add('active');
-                captchaCode.textContent = generateCaptcha();
-                captchaInput.value = '';
-                errorMessage.textContent = '';
-                errorMessage.classList.remove('show');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            // 关闭验证码弹窗
-            function closeModal() {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-            
-            // 刷新验证码
-            function refreshCaptcha() {
-                captchaCode.textContent = generateCaptcha();
-                captchaInput.value = '';
-                errorMessage.textContent = '';
-                errorMessage.classList.remove('show');
-            }
-            
-            // 提交验证
-            function submitCaptcha() {
-                const userInput = captchaInput.value.trim().toUpperCase();
-                const actualCaptcha = captchaCode.textContent;
-                
-                if (!userInput) {
-                    errorMessage.textContent = '请输入验证码';
-                    errorMessage.classList.add('show');
-                    return;
-                }
-                
-                if (userInput !== actualCaptcha) {
-                    errorMessage.textContent = '验证码错误，请重新输入';
-                    errorMessage.classList.add('show');
-                    // 刷新验证码
-                    refreshCaptcha();
-                    return;
-                }
-                
-                // 验证成功
-                closeModal();
-                
-                // 显示成功消息
-                successMessage.classList.add('show');
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                }, 3000);
-            }
-            
-            // 事件监听
-            showBtn.addEventListener('click', showModal);
-            closeBtn.addEventListener('click', closeModal);
-            cancelBtn.addEventListener('click', closeModal);
-            refreshBtn.addEventListener('click', refreshCaptcha);
-            submitBtn.addEventListener('click', submitCaptcha);
-            
-            // 点击遮罩层关闭弹窗
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-            
-            // 按回车键提交
-            captchaInput.addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    submitCaptcha();
-                }
-            });
-            
-            // 初始化验证码
-            refreshCaptcha();
-        });
+      // 标签切换功能
+      
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        item.addEventListener('click', function () {
+          // 移除所有活动状态
+      
+          document.querySelectorAll('.nav-item').forEach((el) => {
+            el.classList.remove('active')
+          })
+      
+          document.querySelectorAll('.tab-content').forEach((el) => {
+            el.classList.remove('active')
+          })
+      
+          // 添加当前活动状态
+      
+          this.classList.add('active')
+      
+          const tabId = this.getAttribute('data-tab')
+      
+          document.getElementById(tabId).classList.add('active')
+        })
+      })
+      
+      // 语言选择功能
+      
+      document.querySelectorAll('.language-card').forEach((card) => {
+        card.addEventListener('click', function () {
+          document.querySelectorAll('.language-card').forEach((el) => {
+            el.classList.remove('selected')
+          })
+      
+          this.classList.add('selected')
+        })
+      })
+      
+      // 删除账号确认
+      
+      document.querySelector('#delete .btn-danger').addEventListener('click', function () {
+        const password = document.getElementById('confirm-delete').value
+      
+        if (!password) {
+          alert('请输入密码以确认删除操作')
+      
+          return
+        }
+      
+        if (confirm('您确定要永久删除账号吗？此操作不可撤销！')) {
+          alert('账号删除请求已提交。我们将在24小时内处理您的请求。')
+        }
+      })
+      
+      // 退出登录确认
+      
+      document.querySelector('#logout .btn-primary').addEventListener('click', function () {
+        if (confirm('确定要退出登录吗？')) {
+          alert('您已成功退出登录。')
+        }
+      })
+      
+      // 生成泡泡背景
+      
+      const bubblesContainer = document.getElementById('bubbles')
+      
+      const bubbleCount = 15
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div')
+      
+        bubble.classList.add('bubble')
+      
+        // 随机大小 (30px 到 150px)
+      
+        const size = Math.random() * 120 + 30
+      
+        bubble.style.width = `${size}px`
+      
+        bubble.style.height = `${size}px`
+      
+        // 随机位置
+      
+        bubble.style.left = `${Math.random() * 100}%`
+      
+        bubble.style.top = `${Math.random() * 100 + 100}%`
+      
+        // 随机动画延迟 (0s 到 10s)
+      
+        bubble.style.animationDelay = `${Math.random() * 10}s`
+      
+        // 随机动画时长 (10s 到 25s)
+      
+        bubble.style.animationDuration = `${Math.random() * 15 + 10}s`
+      
+        bubblesContainer.appendChild(bubble)
+      }
     </script>
-</body>
+  </body>
 </html>
