@@ -30,7 +30,7 @@ function createBubbles() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-            createBubbles();
+    createBubbles();
 });
 
 document.getElementById('loginForm').addEventListener('submit', async function (event) {
