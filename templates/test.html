@@ -195,64 +195,6 @@
         border: 1px solid rgba(255, 255, 255, 0.5);
       }
       
-      .user-section {
-        padding: 30px 25px 20px;
-      
-        border-bottom: 1px solid var(--border-color);
-      
-        display: flex;
-      
-        align-items: center;
-      
-        gap: 15px;
-      }
-      
-      .avatar {
-        width: 60px;
-      
-        height: 60px;
-      
-        border-radius: 50%;
-      
-        background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
-      
-        display: flex;
-      
-        align-items: center;
-      
-        justify-content: center;
-      
-        color: white;
-      
-        font-size: 1.5rem;
-      
-        font-weight: bold;
-      
-        box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
-      }
-      
-      .user-details {
-        display: flex;
-      
-        flex-direction: column;
-      }
-      
-      .user-name {
-        font-weight: 700;
-      
-        font-size: 1.2rem;
-      
-        color: var(--text-primary);
-      
-        margin-bottom: 4px;
-      }
-      
-      .user-email {
-        color: var(--text-secondary);
-      
-        font-size: 0.9rem;
-      }
-      
       .nav-title {
         padding: 20px 25px 15px;
       
@@ -627,22 +569,51 @@
         line-height: 1.7;
       }
       
-      /* 底部 */
+      /* 页脚 */
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px 0;
+        color: var(--secondary);
+        font-size: 0.9rem;
+        border-top: 1px solid var(--light-gray);
+      }
       
-      footer {
-        text-align: center;
+      .icp-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
       
-        padding: 25px;
+      .icp-link {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--secondary);
+        text-decoration: none;
+        transition: var(--transition);
+      }
       
-        color: var(--text-secondary);
+      .icp-link:hover {
+        color: var(--primary);
+      }
       
-        background-color: rgba(255, 255, 255, 0.7);
+      .security-badges {
+        display: flex;
+        gap: 15px;
+      }
       
-        margin-top: 40px;
-      
-        backdrop-filter: blur(10px);
-      
-        font-size: 0.95rem;
+      .badge {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--light);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
       }
       
       /* 响应式设计 */
@@ -691,6 +662,15 @@
       
           border-bottom: 3px solid var(--primary-color);
         }
+      
+        .footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      
+        .security-badges {
+          flex-wrap: wrap;
+        }
       }
       
       @media (max-width: 768px) {
@@ -704,14 +684,6 @@
       
         .profile-grid {
           grid-template-columns: 1fr;
-        }
-      
-        .user-section {
-          flex-direction: column;
-      
-          text-align: center;
-      
-          padding: 25px 20px;
         }
       }
       
@@ -764,18 +736,7 @@
 
     <div class="container">
       <!-- 左侧导航 -->
-
       <div class="sidebar">
-        <div class="user-section">
-          <div class="avatar">JS</div>
-
-          <div class="user-details">
-            <div class="user-name">张明</div>
-
-            <div class="user-email">zhangming@example.com</div>
-          </div>
-        </div>
-
         <div class="nav-title">账户设置</div>
 
         <div class="nav-items">
@@ -812,10 +773,8 @@
       </div>
 
       <!-- 右侧内容 -->
-
       <div class="content">
         <!-- 个人信息 -->
-
         <div id="profile" class="tab-content active">
           <h2 class="section-title"><i class="fas fa-user-circle"></i>个人信息</h2>
 
@@ -827,7 +786,6 @@
 
               <div class="profile-info">
                 <h3>用户名</h3>
-
                 <p>张明</p>
               </div>
             </div>
@@ -871,81 +829,64 @@
         </div>
 
         <!-- 语言设置 -->
-
         <div id="language" class="tab-content">
           <h2 class="section-title"><i class="fas fa-globe-asia"></i>语言设置</h2>
 
           <div class="language-grid">
             <div class="language-card selected">
               <i class="fas fa-language"></i>
-
               <h3>简体中文</h3>
-
               <p>Chinese (Simplified)</p>
             </div>
 
             <div class="language-card">
               <i class="fas fa-language"></i>
-
               <h3>English</h3>
-
               <p>英语</p>
             </div>
 
             <div class="language-card">
               <i class="fas fa-language"></i>
-
               <h3>日本語</h3>
-
               <p>日语</p>
             </div>
 
             <div class="language-card">
               <i class="fas fa-language"></i>
-
               <h3>Español</h3>
-
               <p>西班牙语</p>
             </div>
 
             <div class="language-card">
               <i class="fas fa-language"></i>
-
               <h3>Français</h3>
-
               <p>法语</p>
             </div>
 
             <div class="language-card">
               <i class="fas fa-language"></i>
-
               <h3>Deutsch</h3>
-
               <p>德语</p>
             </div>
           </div>
         </div>
 
         <!-- 修改密码 -->
-
         <div id="password" class="tab-content">
           <h2 class="section-title"><i class="fas fa-key"></i>修改密码</h2>
 
           <div class="form-group">
             <label for="current-password">当前密码</label>
-
             <input type="password" id="current-password" class="form-control" placeholder="请输入当前密码" />
           </div>
 
           <div class="form-group">
             <label for="new-password">新密码</label>
-
             <input type="password" id="new-password" class="form-control" placeholder="请输入新密码（至少8位）" />
           </div>
 
           <div class="form-group">
             <label for="confirm-password">确认新密码</label>
-
             <input type="password" id="confirm-password" class="form-control" placeholder="请再次输入新密码" />
           </div>
 
@@ -959,7 +900,6 @@
 
           <div class="warning-card">
             <h3><i class="fas fa-exclamation-circle"></i> 确定要退出登录吗？</h3>
-
             <p>退出后您将无法访问个人资料和专属内容。下次登录需要重新输入账号密码。</p>
           </div>
 
@@ -967,29 +907,22 @@
         </div>
 
         <!-- 删除账号 -->
-
         <div id="delete" class="tab-content">
           <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i>删除账号</h2>
 
           <div class="warning-card">
             <h3><i class="fas fa-radiation"></i> 警告：此操作不可逆</h3>
-
             <p>删除账号将会永久清除您的所有数据，包括个人信息、设置和历史记录。此操作无法撤销。</p>
-
             <p style="margin-top: 15px; font-weight: 500;">请确认您已了解以下后果：</p>
-
             <ul style="padding-left: 20px; margin-top: 10px;">
               <li>所有个人数据将被永久删除</li>
-
               <li>无法恢复账号及相关内容</li>
-
               <li>关联服务将无法继续使用</li>
             </ul>
           </div>
 
           <div class="form-group">
             <label for="confirm-delete">请输入您的密码以确认删除</label>
-
             <input type="password" id="confirm-delete" class="form-control" placeholder="请输入账号密码" />
           </div>
 
@@ -998,9 +931,26 @@
       </div>
     </div>
 
-    <footer>
-      <p>© 2023 用户设置中心 | 隐私政策 | 使用条款</p>
-    </footer>
+    <div class="footer">
+      <div class="icp-container">
+        <a href="http://beian.miit.gov.cn/" target="_blank" class="icp-link">
+          <i class="fas fa-shield-alt"></i>
+          <span>黑ICP备2025041634号</span>
+        </a>
+        <div class="copyright">© 2025 deeptodos.com 版权所有</div>
+      </div>
+
+      <div class="security-badges">
+        <div class="badge">
+          <i class="fas fa-lock"></i>
+          <span>安全加密</span>
+        </div>
+        <div class="badge">
+          <i class="fas fa-user-shield"></i>
+          <span>隐私保护</span>
+        </div>
+      </div>
+    </div>
 
     <script>
       // 标签切换功能
