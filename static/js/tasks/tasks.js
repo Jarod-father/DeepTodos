@@ -114,8 +114,6 @@ function renderTaskList(tasks, elementId) {
 
         const categoryNames = {
             work: '工作',
-            deepverve: 'DeepVerve',
-            deeptodos: 'DppeTodos',
             personal: '个人',
             shopping: '购物',
             health: '健康',
